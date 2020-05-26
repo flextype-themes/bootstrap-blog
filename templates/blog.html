@@ -1,0 +1,126 @@
+{% extends 'themes/' ~ registry.get('plugins.site.settings.theme') ~ '/templates/partials/base.html' %}
+
+{% block content %}
+    <h1 class="text-center">{{ entry.title }}</h1>
+
+    {# pagination #}
+
+    {% set page = query.page %}
+    {% set tag = query.tag %}
+
+    {% set blog_posts_limit = entries.fetch('blog').entries_limit %}
+
+    {% if blog_posts_limit == 0 %}
+        {% set blog_posts_limit = 5 %}
+    {% endif %}
+
+    {% if tag %}
+        {# @todo get count from cache! #}
+        {% set blog_posts_length = entries.fetch('blog', {
+                                                            'where': {
+                                                                'key': 'tag',
+                                                                'expr': 'contains',
+                                                                'value': tag
+                                                            },
+                                                            'and_where': [{
+                                                                'key': 'visibility',
+                                                                'expr': 'nin',
+                                                                'value': ['draft', 'hidden']
+                                                            }]
+                                                        })|length %}
+
+        {% set blog_posts_pages = (blog_posts_length/blog_posts_limit)|round(0, 'ceil') %}
+        {% if page < 1 %}
+            {% set page = 1 %}
+        {% elseif page > blog_posts_pages %}
+            {% set page = blog_posts_pages %}
+        {% endif %}
+        {% set blog_posts_offset = (page-1)*blog_posts_limit %}
+        {% if blog_posts_offset < 0 %}{% set blog_posts_offset = 0 %}{% endif %}
+
+        {% set blog_posts = entries.fetch('blog', {
+                                                    'where': {
+                                                        'key': 'tag',
+                                                        'expr': 'contains',
+                                                        'value': tag
+                                                    },
+                                                    'and_where': [{
+                                                        'key': 'visibility',
+                                                        'expr': 'nin',
+                                                        'value': ['draft', 'hidden']
+                                                    }],
+                                                    'order_by': {
+                                                        'field': 'published_at',
+                                                        'direction': 'desc'
+                                                    },
+                                                    'set_max_result': blog_posts_limit,
+                                                    'set_first_result': blog_posts_offset
+                                                }) %}
+    {% else %}
+
+        {# @todo get count from cache! #}
+        {% set blog_posts_length = entries.fetch('blog', {
+                                                            'where': {
+                                                                'key': 'visibility',
+                                                                'expr': 'nin',
+                                                                'value': ['draft', 'hidden']
+                                                            }
+                                                        })|length %}
+
+        {% set blog_posts_pages = (blog_posts_length/blog_posts_limit)|round(0, 'ceil') %}
+
+        {% if page < 1 %}
+            {% set page = 1 %}
+        {% elseif page > blog_posts_pages %}
+            {% set page = blog_posts_pages %}
+        {% endif %}
+
+        {% set blog_posts_offset = (page-1)*blog_posts_limit %}
+        {% if blog_posts_offset < 0 %}{% set blog_posts_offset = 0 %}{% endif %}
+
+        {% set blog_posts = entries.fetch('blog', {
+                                                    'where': {
+                                                        'key': 'visibility',
+                                                        'expr': 'nin',
+                                                        'value': ['draft', 'hidden']
+                                                    },
+                                                    'order_by': {
+                                                        'field': 'published_at',
+                                                        'direction': 'desc'
+                                                    },
+                                                    'set_max_result': blog_posts_limit,
+                                                    'set_first_result': blog_posts_offset}) %}
+
+    {% endif %}
+
+    {# /pagination #}
+
+    <div class="row">
+        <div class="col-9">
+            {% for post in blog_posts %}
+              <div class="blog-post">
+                <a href="{{ post.slug }}"><h2 class="blog-post-title">{{ post.title }}</h2></a>
+                <p class="blog-post-meta">{{ post.published_at|date(registry.flextype.date_display_format) }} by <a href="#">Mark</a></p>
+                <p>{{ post.summary|shortcode|raw}}</p>
+              </div>
+            {% endfor %}
+        </div>
+        <div class="col-3">
+
+        </div>
+    </div>
+
+    {# pagination navigation #}
+    <div class="text-center">
+        {% if (page - 1) > 0 %}
+            <a href="?page={{ page - 1 }}{% if tag %}&tag={{ tag }}{% endif %}">&larr;</a>
+        {% endif %}
+        {% if blog_posts_pages is not null and blog_posts_pages != 0 %}
+            {{ page }} / {{ blog_posts_pages }}
+        {% endif %}
+        {% if (page) < blog_posts_pages %}
+            <a href="?page={{ page + 1 }}{% if tag %}&tag={{ tag }}{% endif %}">&rarr;</a>
+        {% endif %}
+    </div>
+    {# /pagination navigation #}
+{% endblock %}

@@ -18,7 +18,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .blog-post {
-  margin-bottom: 4rem;
+  margin-bottom: 2rem;
 }
 
 .blog-post-title {
@@ -29,4 +29,14 @@ h1, h2, h3, h4, h5, h6 {
 .blog-post-meta {
   margin-bottom: 1.25rem;
   color: #999;
+  display: flex;
+  align-items: center;
+}
+
+.blog-post-meta svg {
+    margin-right: 10px;
+}
+
+.blog-post-meta svg:nth-child(2n) {
+    margin-left: 20px;
 }

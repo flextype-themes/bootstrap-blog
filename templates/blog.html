@@ -14,10 +14,11 @@
     {% endif %}
 
     {% if tag %}
+
         {# @todo get count from cache! #}
         {% set blog_posts_length = entries.fetch('blog', {
                                                             'where': {
-                                                                'key': 'tag',
+                                                                'key': 'tags',
                                                                 'expr': 'contains',
                                                                 'value': tag
                                                             },
@@ -39,7 +40,7 @@
 
         {% set blog_posts = entries.fetch('blog', {
                                                     'where': {
-                                                        'key': 'tag',
+                                                        'key': 'tags',
                                                         'expr': 'contains',
                                                         'value': tag
                                                     },

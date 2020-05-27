@@ -14,7 +14,7 @@
 
 ## Dependencies
 
-The following dependencies need to be downloaded and installed for Bootstrap Site Theme.
+The following dependencies need to be downloaded and installed for Bootstrap Blog Theme.
 
 | Item | Version | Download |
 |---|---|---|

@@ -96,7 +96,7 @@
     {# /pagination #}
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-9">
             {% for post in blog_posts %}
               <div class="blog-post">
                 <a href="{{ post.slug }}"><h2 class="blog-post-title">{{ post.title }}</h2></a>
@@ -118,6 +118,34 @@
                 </p>
               </div>
             {% endfor %}
+        </div>
+        <div class="col-md-3">
+            {# about-me #}
+            <h3 class="text-left mb-2">About Me</h3>
+            <p>
+                {{ entry.about_me|raw }}
+            </p>
+            {# /about-me #}
+            {# recent-posts #}
+            <h3 class="text-left mb-2">Recent Posts</h3>
+            <ul class="pl-0 list-unstyled">
+            {% for post in entries.fetch('blog', {
+                                                    'where': {
+                                                        'key': 'visibility',
+                                                        'expr': 'nin',
+                                                        'value': ['draft', 'hidden']
+                                                    },
+                                                    'order_by': {
+                                                        'field': 'published_at',
+                                                        'direction': 'desc'
+                                                    },
+                                                    'set_max_result': blog_posts_limit
+                                                }) %}
+
+                    <li class="mb-1"><a href="{{ url() }}/{{ post.slug }}">{{ post.title }}</a></li>
+            {% endfor %}
+            </ul>
+            {# /recent-posts #}
         </div>
     </div>
 

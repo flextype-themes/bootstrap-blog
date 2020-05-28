@@ -19,5 +19,44 @@
                 {% endfor %}
             {% endif %}
         </p>
+        <div>
+            {% if entry.tags is not empty %}
+                {% set tags = entry.tags|split(',') %}
+                {% set related_posts = [] %}
+
+                {% for tag in tags %}
+
+                    {% set related_posts = related_posts|merge(entries.fetch('blog', {
+                                                                        'where': {
+                                                                            'key': 'tags',
+                                                                            'expr': 'contains',
+                                                                            'value': tag
+                                                                        },
+                                                                        'and_where': [{
+                                                                            'key': 'visibility',
+                                                                            'expr': 'nin',
+                                                                            'value': ['draft', 'hidden']
+                                                                        }]
+                                                                    })) %}
+                {% endfor %}
+
+                <hr>
+
+                {% if related_posts|length > 0 %}
+                    <h3 class="mb-2">Related Posts</h3>
+                    <ul class="pl-0 list-unstyled">
+                    {% for related_post in related_posts %}
+                    {% if related_post.slug != entry.slug %}
+                        <li class="mb-1">
+                            <a href="{{ url() }}/{{ related_post.slug }}">
+                                {{ related_post.title }}
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

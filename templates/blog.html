@@ -147,6 +147,7 @@
             </ul>
             {# /recent-posts #}
 
+            {# tags-cloud #}
             {% set tags_cloud = [] %}
             {% for post in entries.fetch('blog', {
                                                     'where': {
@@ -168,6 +169,7 @@
                     <a href="{{ url() }}/blog?tag={{ tag }}"><span class="badge badge-primary">{{ tag }}</span></a>
                 {% endfor %}
             {% endif %}
+            {# /tags-cloud #}
         </div>
     </div>
 

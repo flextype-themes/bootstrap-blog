@@ -1,3 +1,13 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/flextype-themes/bootstrap-blog) (2020-05-28)
+
+### Features
+
+* **blog-post** add date and tags for each blog post page
+* **blog-post** add About Me and Recent Posts blocks
+* **blog-post)** add related post functionality
+* **blog-post)** add tags cloud functionality
+
 <a name="1.0.2"></a>
 # [1.0.2](https://github.com/flextype-themes/bootstrap-blog) (2020-05-27)
 

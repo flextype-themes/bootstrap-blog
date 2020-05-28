@@ -146,6 +146,28 @@
             {% endfor %}
             </ul>
             {# /recent-posts #}
+
+            {% set tags_cloud = [] %}
+            {% for post in entries.fetch('blog', {
+                                                    'where': {
+                                                        'key': 'visibility',
+                                                        'expr': 'nin',
+                                                        'value': ['draft', 'hidden']
+                                                    },
+                                                    'order_by': {
+                                                        'field': 'published_at',
+                                                        'direction': 'desc'
+                                                    }
+                                                }) %}
+                {% set tags_cloud = tags_cloud|merge(post.tags|split(',')) %}
+            {% endfor %}
+
+            {% if tags_cloud|length > 0 %}
+                <h3 class="text-left mb-2">Tags</h3>
+                {% for tag in tags_cloud|reduce((unique, item) => item in unique ? unique : unique|merge([item]), [])  %}
+                    <a href="{{ url() }}/blog?tag={{ tag }}"><span class="badge badge-primary">{{ tag }}</span></a>
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 

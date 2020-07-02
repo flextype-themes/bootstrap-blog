@@ -1,3 +1,10 @@
+<a name="1.1.1"></a>
+# [1.1.1](https://github.com/flextype-themes/bootstrap-blog) (2020-07-02)
+
+### Bug Fixes
+
+* **blog:** fix post date formating
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/flextype-themes/bootstrap-blog) (2020-05-28)
 

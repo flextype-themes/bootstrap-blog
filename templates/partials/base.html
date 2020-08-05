@@ -25,7 +25,7 @@
             <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 
             {% set theme = registry.get('plugins.site.settings.theme') %}
-            {% do registry.set('assets.site.css.' ~ [], 'project/themes/' ~ theme ~ '/assets/src/css/styles.css') %}
+            {% do registry.set('assets.site.css.bootstrap-blog', 'project/themes/' ~ theme ~ '/assets/src/css/styles.css') %}
 
             {% if registry.has('assets.site.css') %}
                 {% for css in registry.get('assets.site.css') %}
@@ -46,12 +46,7 @@
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav mr-auto">
-              {% for item in entries.fetch('', {
-                  'order_by': {
-                      'field': 'menu_item_order',
-                      'direction': 'asc'
-                  }
-              }) %}
+              {% for item in collect(entries.fetchCollection('')).orderBy('menu_item_order', 'ASC').all() %}
                   {% if item.menu_item_title %}
                       <li class="nav-item {% if item.menu_item_url in entry.slug %}active{% endif %}">
                         <a class="nav-link" href="{{ url() }}/{{ item.menu_item_url }}">{{ item.menu_item_title }}</a>

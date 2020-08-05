@@ -7,7 +7,7 @@
     {% set page = query.page %}
     {% set tag = query.tag %}
 
-    {% set blog_posts_limit = entries.fetch('blog').entries_limit %}
+    {% set blog_posts_limit = entries.fetchSingle('blog').entries_limit %}
 
     {% if blog_posts_limit == 0 %}
         {% set blog_posts_limit = 5 %}
@@ -16,7 +16,7 @@
     {% if tag %}
 
         {# @todo get count from cache! #}
-        {% set blog_posts_length = entries.fetch('blog', {
+        {% set blog_posts_length = entries.fetchCollection('blog', {
                                                             'where': {
                                                                 'key': 'tags',
                                                                 'expr': 'contains',
@@ -38,7 +38,7 @@
         {% set blog_posts_offset = (page-1)*blog_posts_limit %}
         {% if blog_posts_offset < 0 %}{% set blog_posts_offset = 0 %}{% endif %}
 
-        {% set blog_posts = entries.fetch('blog', {
+        {% set blog_posts = entries.fetchCollection('blog', {
                                                     'where': {
                                                         'key': 'tags',
                                                         'expr': 'contains',
@@ -51,7 +51,7 @@
                                                     }],
                                                     'order_by': {
                                                         'field': 'published_at',
-                                                        'direction': 'desc'
+                                                        'direction': 'DESC'
                                                     },
                                                     'set_max_result': blog_posts_limit,
                                                     'set_first_result': blog_posts_offset
@@ -59,7 +59,7 @@
     {% else %}
 
         {# @todo get count from cache! #}
-        {% set blog_posts_length = entries.fetch('blog', {
+        {% set blog_posts_length = entries.fetchCollection('blog', {
                                                             'where': {
                                                                 'key': 'visibility',
                                                                 'expr': 'nin',
@@ -78,7 +78,7 @@
         {% set blog_posts_offset = (page-1)*blog_posts_limit %}
         {% if blog_posts_offset < 0 %}{% set blog_posts_offset = 0 %}{% endif %}
 
-        {% set blog_posts = entries.fetch('blog', {
+        {% set blog_posts = entries.fetchCollection('blog', {
                                                     'where': {
                                                         'key': 'visibility',
                                                         'expr': 'nin',
@@ -86,10 +86,11 @@
                                                     },
                                                     'order_by': {
                                                         'field': 'published_at',
-                                                        'direction': 'desc'
+                                                        'direction': 'DESC'
                                                     },
-                                                    'set_max_result': blog_posts_limit,
-                                                    'set_first_result': blog_posts_offset}) %}
+                                                    'return': 'slice',
+                                                    'slice_offset_value': blog_posts_offset,
+                                                    'slice_limit_value': blog_posts_limit}) %}
 
     {% endif %}
 
@@ -129,7 +130,7 @@
             {# recent-posts #}
             <h3 class="text-left mb-2">Recent Posts</h3>
             <ul class="pl-0 list-unstyled">
-            {% for post in entries.fetch('blog', {
+            {% for post in entries.fetchCollection('blog', {
                                                     'where': {
                                                         'key': 'visibility',
                                                         'expr': 'nin',
@@ -137,9 +138,10 @@
                                                     },
                                                     'order_by': {
                                                         'field': 'published_at',
-                                                        'direction': 'desc'
+                                                        'direction': 'DESC'
                                                     },
-                                                    'set_max_result': blog_posts_limit
+                                                    'return': 'limit',
+                                                    'limit_value': blog_posts_limit
                                                 }) %}
 
                     <li class="mb-1"><a href="{{ url() }}/{{ post.slug }}">{{ post.title }}</a></li>
@@ -149,7 +151,7 @@
 
             {# tags-cloud #}
             {% set tags_cloud = [] %}
-            {% for post in entries.fetch('blog', {
+            {% for post in entries.fetchCollection('blog', {
                                                     'where': {
                                                         'key': 'visibility',
                                                         'expr': 'nin',
@@ -157,7 +159,7 @@
                                                     },
                                                     'order_by': {
                                                         'field': 'published_at',
-                                                        'direction': 'desc'
+                                                        'direction': 'DESC'
                                                     }
                                                 }) %}
                 {% set tags_cloud = tags_cloud|merge(post.tags|split(',')) %}

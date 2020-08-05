@@ -1,3 +1,10 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/flextype-themes/bootstrap-blog) (2020-08-05)
+
+### Features
+
+* **core** update code base for new Flextype 0.9.9
+
 <a name="1.1.1"></a>
 # [1.1.1](https://github.com/flextype-themes/bootstrap-blog) (2020-07-02)
 

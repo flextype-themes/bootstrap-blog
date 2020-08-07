@@ -1,6 +1,12 @@
 {% extends 'themes/' ~ registry.get('plugins.site.settings.theme') ~ '/templates/partials/base.html' %}
 
 {% block content %}
+    {% set blog = entries.fetchCollection('blog') %}
+    {% set blog_posts_limit = entries.fetchSingle('blog').entries_limit %}
+    {% if blog_posts_limit == 0 %}
+        {% set blog_posts_limit = 5 %}
+    {% endif %}
+    
     <h1>{{ entry.title }}</h1>
     <div class="blog-post">
         {{ entry.content|shortcode|markdown|raw}}
@@ -26,18 +32,10 @@
 
                 {% for tag in tags %}
 
-                    {% set related_posts = related_posts|merge(entries.fetchCollection('blog', {
-                                                                        'where': {
-                                                                            'key': 'tags',
-                                                                            'expr': 'contains',
-                                                                            'value': tag
-                                                                        },
-                                                                        'and_where': [{
-                                                                            'key': 'visibility',
-                                                                            'expr': 'nin',
-                                                                            'value': ['draft', 'hidden']
-                                                                        }]
-                                                                    })) %}
+                    {% set related_posts = related_posts|merge(collect(blog)
+                                                    .where('tags', 'contains', tag)
+                                                    .andWhere('visibility', 'nin', ['draft', 'hidden'])
+                                                    .limit(blog_posts_limit) ) %}
                 {% endfor %}
 
                 <hr>

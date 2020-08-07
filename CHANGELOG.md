@@ -1,3 +1,10 @@
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/flextype-themes/bootstrap-blog) (2020-08-07)
+
+### Features
+
+* **core** updates for new API and performance boost in 3 times!
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/flextype-themes/bootstrap-blog) (2020-08-05)
 

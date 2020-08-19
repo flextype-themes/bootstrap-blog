@@ -61,7 +61,7 @@
         <div class="col-md-9">
             {% for post in blog_posts %}
               <div class="blog-post">
-                <a href="{{ post.slug }}"><h2 class="blog-post-title">{{ post.title }}</h2></a>
+                <a href="{{ post.id }}"><h2 class="blog-post-title">{{ post.title }}</h2></a>
                 <p>{{ post.summary|shortcode|raw}}</p>
                 <p class="blog-post-meta">
                     <svg class="bi bi-calendar3-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -96,7 +96,7 @@
                                 .where('visibility', 'nin', ['draft', 'hidden'])
                                 .orderBy('published_at', 'DESC')
                                 .limit(blog_posts_limit) %}
-                    <li class="mb-1"><a href="{{ url() }}/{{ post.slug }}">{{ post.title }}</a></li>
+                    <li class="mb-1"><a href="{{ url() }}/{{ post.id }}">{{ post.title }}</a></li>
             {% endfor %}
             </ul>
             {# /recent-posts #}

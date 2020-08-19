@@ -44,9 +44,9 @@
                     <h3 class="mb-2">Related Posts</h3>
                     <ul class="pl-0 list-unstyled">
                     {% for related_post in related_posts %}
-                    {% if related_post.slug != entry.slug %}
+                    {% if related_post.id != entry.id %}
                         <li class="mb-1">
-                            <a href="{{ url() }}/{{ related_post.slug }}">
+                            <a href="{{ url() }}/{{ related_post.id }}">
                                 {{ related_post.title }}
                             </a>
                         </li>

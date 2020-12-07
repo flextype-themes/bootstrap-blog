@@ -15,9 +15,9 @@
     {% endif %}
 
     {% if tag %}
-        {% set blog_posts_length = collect(blog)
+        {% set blog_posts_length = blog.copy()
                                         .where('tags', 'contains', tag)
-                                        .andWhere('visibility', 'nin', ['draft', 'hidden'])
+                                        .where('visibility', 'nin', ['draft', 'hidden'])
                                         .count() %}
         {% set blog_posts_pages = (blog_posts_length/blog_posts_limit)|round(0, 'ceil') %}
 
@@ -30,14 +30,16 @@
         {% set blog_posts_offset = (page-1)*blog_posts_limit %}
         {% if blog_posts_offset < 0 %}{% set blog_posts_offset = 0 %}{% endif %}
 
-        {% set blog_posts = collect(blog)
+        {% set blog_posts = blog.copy()
                                 .where('tags', 'contains', tag)
-                                .andWhere('visibility', 'nin', ['draft', 'hidden'])
-                                .orderBy('published_at', 'DESC')
+                                .where('visibility', 'nin', ['draft', 'hidden'])
+                                .sortBy('published_at', 'DESC')
                                 .slice(blog_posts_offset, blog_posts_limit) %}
 
     {% else %}
-        {% set blog_posts_length = collect(blog).where('visibility', 'nin', ['draft', 'hidden']).count() %}
+
+
+        {% set blog_posts_length = blog.copy().where('visibility', 'nin', ['draft', 'hidden']).count() %}
         {% set blog_posts_pages = (blog_posts_length/blog_posts_limit)|round(0, 'ceil') %}
 
         {% if page < 1 %}
@@ -49,9 +51,9 @@
         {% set blog_posts_offset = (page-1)*blog_posts_limit %}
         {% if blog_posts_offset < 0 %}{% set blog_posts_offset = 0 %}{% endif %}
 
-        {% set blog_posts = collect(blog)
+        {% set blog_posts = blog.copy()
                                 .where('visibility', 'nin', ['draft', 'hidden'])
-                                .orderBy('published_at', 'DESC')
+                                .sortBy('published_at', 'DESC')
                                 .slice(blog_posts_offset, blog_posts_limit) %}
 
     {% endif %}
@@ -92,9 +94,9 @@
             {# recent-posts #}
             <h3 class="text-left mb-2">Recent Posts</h3>
             <ul class="pl-0 list-unstyled">
-            {% for post in collect(blog)
+            {% for post in blog.copy()
                                 .where('visibility', 'nin', ['draft', 'hidden'])
-                                .orderBy('published_at', 'DESC')
+                                .sortBy('published_at', 'DESC')
                                 .limit(blog_posts_limit) %}
                     <li class="mb-1"><a href="{{ url() }}/{{ post.id }}">{{ post.title }}</a></li>
             {% endfor %}
@@ -103,9 +105,9 @@
 
             {# tags-cloud #}
             {% set tags_cloud = [] %}
-            {% for post in collect(blog)
+            {% for post in blog.copy()
                                 .where('visibility', 'nin', ['draft', 'hidden'])
-                                .orderBy('published_at', 'DESC')
+                                .sortBy('published_at', 'DESC')
                                 .limit(blog_posts_limit) %}
                 {% set tags_cloud = tags_cloud|merge(post.tags|split(',')) %}
             {% endfor %}
@@ -119,7 +121,6 @@
             {# /tags-cloud #}
         </div>
     </div>
-
 
     {# pagination navigation #}
     <div class="text-center">

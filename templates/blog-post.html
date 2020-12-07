@@ -6,7 +6,7 @@
     {% if blog_posts_limit == 0 %}
         {% set blog_posts_limit = 5 %}
     {% endif %}
-    
+
     <h1>{{ entry.title }}</h1>
     <div class="blog-post">
         {{ entry.content|shortcode|markdown|raw}}
@@ -32,9 +32,9 @@
 
                 {% for tag in tags %}
 
-                    {% set related_posts = related_posts|merge(collect(blog)
+                    {% set related_posts = related_posts|merge(arrays(blog)
                                                     .where('tags', 'contains', tag)
-                                                    .andWhere('visibility', 'nin', ['draft', 'hidden'])
+                                                    .where('visibility', 'nin', ['draft', 'hidden'])
                                                     .limit(blog_posts_limit) ) %}
                 {% endfor %}
 

@@ -46,7 +46,7 @@
 
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav mr-auto">
-              {% for item in collect(entries.fetchCollection('')).orderBy('menu_item_order', 'ASC').all() %}
+              {% for item in arrays(entries.fetchCollection('')).sortBy('menu_item_order', 'ASC').all() %}
                   {% if item.menu_item_title %}
                       <li class="nav-item {% if item.menu_item_url in entry.id %}active{% endif %}">
                         <a class="nav-link" href="{{ url() }}/{{ item.menu_item_url }}">{{ item.menu_item_title }}</a>

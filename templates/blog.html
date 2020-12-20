@@ -6,9 +6,9 @@
 
     {% set page = query.page %}
     {% set tag = query.tag %}
-    {% set blog = entries.fetchCollection('blog') %}
+    {% set blog = entries.fetch('blog', {'collection': true}) %}
 
-    {% set blog_posts_limit = entries.fetchSingle('blog').entries_limit %}
+    {% set blog_posts_limit = entries.fetch('blog').entries_limit %}
 
     {% if blog_posts_limit == 0 %}
         {% set blog_posts_limit = 5 %}

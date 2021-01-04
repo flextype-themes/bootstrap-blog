@@ -2,10 +2,8 @@
 
 {% block content %}
 
-    {# pagination #}
-
-    {% set page = request.getUri().getQuery().page %}
-    {% set tag = request.getUri().getQuery().tag %}
+    {% set page = request.getQueryParams().page %}
+    {% set tag = request.getQueryParams().tag %}
     {% set blog = flextype.entries.fetch('blog', {'collection': true}) %}
 
     {% set blog_posts_limit = flextype.entries.fetch('blog').entries_limit %}

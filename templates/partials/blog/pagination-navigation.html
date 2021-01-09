@@ -6,6 +6,6 @@
         {{ page }} / {{ blogPostsPages }}
     {% endif %}
     {% if (page) < blogPostsPages %}
-        <a href="?page={{ page + 1 }}{% if tag %}&tag={{ tag }}{% endif %}">&rarr;</a>
+        <a href="?page={{ page + 1 }}{% if tag %}&tag={{ tag|trim }}{% endif %}">&rarr;</a>
     {% endif %}
 </div>

@@ -4,133 +4,103 @@
 
     {% set page = request.getQueryParams().page %}
     {% set tag = request.getQueryParams().tag %}
-    {% set blog = flextype.entries.fetch('blog', {'collection': true}) %}
 
-    {% set blog_posts_limit = flextype.entries.fetch('blog').entries_limit %}
-
-    {% if blog_posts_limit == 0 %}
-        {% set blog_posts_limit = 5 %}
+    {% set blogID = flextype.registry.get('themes.bootstrap-blog.settings.blog_id') %}
+    {% set blogCollectionCacheID = strings('collectionCacheID-' ~ blogID).hash().toString() %}
+    {% if flextype.cache.has(blogCollectionCacheID) %}
+        {% set blog = flextype.cache.get(blogCollectionCacheID) %}
+    {% else %}
+        {% set blog = flextype.entries.fetch(blogID, {'collection': true}).exceptFromCollection(['content']) %}
+        {% do flextype.cache.set(blogCollectionCacheID, blog) %}
     {% endif %}
 
+    {% set blogPostsLimit = flextype.entries.fetch(blogID).posts_limit %}
+    {% if blogPostsLimit == 0 %}{% set blogPostsLimit = 5 %}{% endif %}
+
     {% if tag %}
-        {% set blog_posts_length = blog.copy()
+        {% set blogPostsLength = blog.copy()
                                         .where('tags', 'contains', tag)
                                         .where('visibility', 'nin', ['draft', 'hidden'])
                                         .count() %}
-        {% set blog_posts_pages = (blog_posts_length/blog_posts_limit)|round(0, 'ceil') %}
+        {% set blogPostsPages = (blogPostsLength / blogPostsLimit)|round(0, 'ceil') %}
 
         {% if page < 1 %}
             {% set page = 1 %}
-        {% elseif page > blog_posts_pages %}
-            {% set page = blog_posts_pages %}
+        {% elseif page > blogPostsPages %}
+            {% set page = blogPostsPages %}
         {% endif %}
 
-        {% set blog_posts_offset = (page-1)*blog_posts_limit %}
-        {% if blog_posts_offset < 0 %}{% set blog_posts_offset = 0 %}{% endif %}
+        {% set blogPostsOffset = (page - 1 ) * blogPostsLimit %}
+        {% if blogPostsOffset < 0 %}{% set blogPostsOffset = 0 %}{% endif %}
 
-        {% set blog_posts = blog.copy()
+        {% set blogPosts = blog.copy()
                                 .where('tags', 'contains', tag)
                                 .where('visibility', 'nin', ['draft', 'hidden'])
                                 .sortBy('published_at', 'DESC')
-                                .slice(blog_posts_offset, blog_posts_limit) %}
-
+                                .slice(blogPostsOffset, blogPostsLimit) %}
     {% else %}
 
-
-        {% set blog_posts_length = blog.copy().where('visibility', 'nin', ['draft', 'hidden']).count() %}
-        {% set blog_posts_pages = (blog_posts_length/blog_posts_limit)|round(0, 'ceil') %}
+        {% set blogPostsLength = blog.copy().where('visibility', 'nin', ['draft', 'hidden']).count() %}
+        {% set blogPostsPages = (blogPostsLength / blogPostsLimit)|round(0, 'ceil') %}
 
         {% if page < 1 %}
             {% set page = 1 %}
-        {% elseif page > blog_posts_pages %}
-            {% set page = blog_posts_pages %}
+        {% elseif page > blogPostsPages %}
+            {% set page = blogPostsPages %}
         {% endif %}
 
-        {% set blog_posts_offset = (page-1)*blog_posts_limit %}
-        {% if blog_posts_offset < 0 %}{% set blog_posts_offset = 0 %}{% endif %}
+        {% set blogPostsOffset = (page - 1) * blogPostsLimit %}
+        {% if blogPostsOffset < 0 %}{% set blogPostsOffset = 0 %}{% endif %}
 
-        {% set blog_posts = blog.copy()
+        {% set blogPosts = blog.copy()
                                 .where('visibility', 'nin', ['draft', 'hidden'])
                                 .sortBy('published_at', 'DESC')
-                                .slice(blog_posts_offset, blog_posts_limit) %}
+                                .slice(blogPostsOffset, blogPostsLimit) %}
 
     {% endif %}
 
-
     <div class="row">
         <div class="col-md-9">
-            {% for post in blog_posts %}
+            {# blog-posts #}
+            {% for post in blogPosts %}
               <div class="blog-post">
                 <a href="{{ post.id }}"><h2 class="blog-post-title">{{ post.title }}</h2></a>
                 <p>{{ post.summary|shortcode|raw}}</p>
                 <p class="blog-post-meta">
-                    <svg class="bi bi-calendar3-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="bi bi-calendar3-fill" width="1em" height="1em" viewBox="0 0 18 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                       <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2H0z"/>
                       <path fill-rule="evenodd" d="M0 3h16v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3zm6.5 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm4-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm2 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-8 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm2 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm4-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm2 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-8 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm2 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm4-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
                     </svg>
                     {{ post.published_at|date(flextype.registry.get('flextype.date_display_format')) }}
                     {% if post.tags is not empty %}
-                        <svg class="bi bi-tag-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="bi bi-tag-fill ml-2" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                           <path fill-rule="evenodd" d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                         </svg>
                         {% for tag in post.tags|split(',') %}
-                            <a href="{{ url() }}/blog?tag={{ tag }}">{{ tag }}</a>{% if loop.last %}{% else %},&nbsp;{% endif %}
+                            <a href="{{ url() }}/blog?tag={{ tag|trim }}">{{ tag|trim }}</a>{% if loop.last %}{% else %},&nbsp;{% endif %}
                         {% endfor %}
                     {% endif %}
                 </p>
               </div>
             {% endfor %}
+            {# /blog-posts #}
         </div>
         <div class="col-md-3">
             {# about-me #}
-            <h3 class="text-left mb-2">About Me</h3>
-            <p>
-                {{ entry.about_me|raw }}
-            </p>
+            {% include 'themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/partials/blog/about-me.html' %}
             {# /about-me #}
 
             {# recent-posts #}
-            <h3 class="text-left mb-2">Recent Posts</h3>
-            <ul class="pl-0 list-unstyled">
-            {% for post in blog.copy()
-                                .where('visibility', 'nin', ['draft', 'hidden'])
-                                .sortBy('published_at', 'DESC')
-                                .limit(blog_posts_limit) %}
-                    <li class="mb-1"><a href="{{ url() }}/{{ post.id }}">{{ post.title }}</a></li>
-            {% endfor %}
-            </ul>
+            {% include 'themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/partials/blog/recent-posts.html' %}
             {# /recent-posts #}
 
             {# tags-cloud #}
-            {% set tags_cloud = [] %}
-            {% for post in blog.copy()
-                                .where('visibility', 'nin', ['draft', 'hidden'])
-                                .sortBy('published_at', 'DESC')
-                                .limit(blog_posts_limit) %}
-                {% set tags_cloud = tags_cloud|merge(post.tags|split(',')) %}
-            {% endfor %}
-
-            {% if tags_cloud|length > 0 %}
-                <h3 class="text-left mb-2">Tags</h3>
-                {% for tag in tags_cloud|reduce((unique, item) => item in unique ? unique : unique|merge([item]), [])  %}
-                    <a href="{{ url() }}/blog?tag={{ tag }}"><span class="badge badge-primary">{{ tag }}</span></a>
-                {% endfor %}
-            {% endif %}
+            {% include 'themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/partials/blog/tags-cloud.html' %}
             {# /tags-cloud #}
         </div>
     </div>
 
-    {# pagination navigation #}
-    <div class="text-center">
-        {% if (page - 1) > 0 %}
-            <a href="?page={{ page - 1 }}{% if tag %}&tag={{ tag }}{% endif %}">&larr;</a>
-        {% endif %}
-        {% if blog_posts_pages is not null and blog_posts_pages > 1 %}
-            {{ page }} / {{ blog_posts_pages }}
-        {% endif %}
-        {% if (page) < blog_posts_pages %}
-            <a href="?page={{ page + 1 }}{% if tag %}&tag={{ tag }}{% endif %}">&rarr;</a>
-        {% endif %}
-    </div>
-    {# /pagination navigation #}
+    {# pagination-navigation #}
+    {% include 'themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/partials/blog/pagination-navigation.html' %}
+    {# /pagination-navigation #}
 {% endblock %}

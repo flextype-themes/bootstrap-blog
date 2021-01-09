@@ -1,17 +1,11 @@
 {% extends 'themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/partials/base.html' %}
 
 {% block content %}
-    {% set blog = flextype.entries.fetch('blog') %}
-    {% set blog_posts_limit = flextype.entries.fetch('blog').entries_limit %}
-    {% if blog_posts_limit == 0 %}
-        {% set blog_posts_limit = 5 %}
-    {% endif %}
-
     <h1>{{ entry.title }}</h1>
     <div class="blog-post">
         {{ entry.content|shortcode|markdown|raw}}
         <p class="blog-post-meta">
-            <svg class="bi bi-calendar3-fill" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <svg class="bi bi-calendar3-fill" width="1em" height="1em" viewBox="0 0 18 18" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2H0z"/>
               <path fill-rule="evenodd" d="M0 3h16v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3zm6.5 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm4-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm2 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-8 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm2 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm4-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm2 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-8 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm2 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm4-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
             </svg>
@@ -21,40 +15,9 @@
                   <path fill-rule="evenodd" d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
                 </svg>
                 {% for tag in entry.tags|split(',') %}
-                    <a href="{{ url() }}/blog?tag={{ tag }}">{{ tag }}</a>{% if loop.last %}{% else %},&nbsp;{% endif %}
+                    <a href="{{ url() }}/blog?tag={{ tag|trim }}">{{ tag|trim }}</a>{% if loop.last %}{% else %},&nbsp;{% endif %}
                 {% endfor %}
             {% endif %}
         </p>
-        <div>
-            {% if entry.tags is not empty %}
-                {% set tags = entry.tags|split(',') %}
-                {% set related_posts = [] %}
-
-                {% for tag in tags %}
-
-                    {% set related_posts = related_posts|merge(arrays(blog)
-                                                    .where('tags', 'contains', tag)
-                                                    .where('visibility', 'nin', ['draft', 'hidden'])
-                                                    .limit(blog_posts_limit) ) %}
-                {% endfor %}
-
-                <hr>
-
-                {% if related_posts|length > 0 %}
-                    <h3 class="mb-2">Related Posts</h3>
-                    <ul class="pl-0 list-unstyled">
-                    {% for related_post in related_posts %}
-                    {% if related_post.id != entry.id %}
-                        <li class="mb-1">
-                            <a href="{{ url() }}/{{ related_post.id }}">
-                                {{ related_post.title }}
-                            </a>
-                        </li>
-                        {% endif %}
-                    {% endfor %}
-                    </ul>
-                {% endif %}
-            {% endif %}
-        </div>
     </div>
 {% endblock %}

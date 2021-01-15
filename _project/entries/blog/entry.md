@@ -8,7 +8,10 @@ published_at: '26-05-2020 14:46'
 created_at: '26-05-2020 14:46'
 published_by: ea7432a3-b2d5-4b04-b31d-1c5acc7a55e2
 created_by: ea7432a3-b2d5-4b04-b31d-1c5acc7a55e2
-entries_limit: 3
+posts_limit: 5
+posts_random_limit: 5
+posts_recent_limit: 5
+about_me: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
 description: ''
 template: blog
 menu_item_title: Blog

@@ -6,7 +6,7 @@
     {% set tag = request.getQueryParams().tag %}
 
     {% set blogID = flextype.registry.get('themes.bootstrap-blog.settings.blog_id') %}
-    {% set blogCollectionCacheID = strings('collectionCacheID-' ~ blogID).hash().toString() %}
+    {% set blogCollectionCacheID = strings('blog-collection-' ~ blogID).hash().toString() %}
     {% if flextype.cache.has(blogCollectionCacheID) %}
         {% set blog = flextype.cache.get(blogCollectionCacheID) %}
     {% else %}
@@ -14,8 +14,10 @@
         {% do flextype.cache.set(blogCollectionCacheID, blog) %}
     {% endif %}
 
-    {% set blogPostsLimit = flextype.entries.fetch(blogID).posts_limit %}
-    {% if blogPostsLimit == 0 %}{% set blogPostsLimit = 5 %}{% endif %}
+    {% set blogPostData = flextype.entries.fetch(blogID) %}
+    {% if blogPostData.posts_limit == 0 %}{% set blogPostsLimit = 5 %}{% else %}{% set blogPostsLimit = blogPostData.posts_limit %}{% endif %}
+    {% if blogPostData.posts_recent_limit == 0 %}{% set blogPostsRecentLimit = 5 %}{% else %}{% set blogPostsRecentLimit = blogPostData.posts_recent_limit %}{% endif %}
+    {% if blogPostData.posts_random_limit == 0 %}{% set blogPostsRandomLimit = 5 %}{% else %}{% set blogPostsRandomLimit = blogPostData.posts_random_limit %}{% endif %}
 
     {% if tag %}
         {% set blogPostsLength = blog.copy()
@@ -89,6 +91,10 @@
             {# about-me #}
             {% include 'themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/partials/blog/about-me.html' %}
             {# /about-me #}
+
+            {# random-posts #}
+            {% include 'themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/partials/blog/random-posts.html' %}
+            {# /random-posts #}
 
             {# recent-posts #}
             {% include 'themes/' ~ flextype.registry.get('plugins.site.settings.theme') ~ '/templates/partials/blog/recent-posts.html' %}

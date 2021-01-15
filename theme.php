@@ -27,8 +27,7 @@ Arrays::macro('exceptFromCollection', function(array $keys) {
     return arrays($result);
 });
 
-
-$blogCollectionCacheID = strings('collectionCacheID-' . flextype('registry')
+$blogCollectionCacheID = strings('blog-collection-' . flextype('registry')
                                                             ->get('themes.bootstrap-blog.settings.blog_id'))
                                                             ->hash()
                                                             ->toString();
@@ -39,6 +38,14 @@ flextype('emitter')->addListener('onEntriesCreate', function () use ($blogCollec
 });
 
 flextype('emitter')->addListener('onEntriesDelete', function () use ($blogCollectionCacheID) {
+    flextype('cache')->delete($blogCollectionCacheID);
+});
+
+flextype('emitter')->addListener('onEntriesCopy', function () use ($blogCollectionCacheID) {
+    flextype('cache')->delete($blogCollectionCacheID);
+});
+
+flextype('emitter')->addListener('onEntriesMove', function () use ($blogCollectionCacheID) {
     flextype('cache')->delete($blogCollectionCacheID);
 });
 

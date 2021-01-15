@@ -1,3 +1,17 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/flextype-plugins/themes-admin/compare/v1.9.1...v2.0.0) (2021-01-15)
+
+* **core:** add caching for blog collection. key: `blog-collection-` + `blog_id`
+* **core:** add actions for automatic blog collection cleanup `onEntries*` events.
+* **core:** add random posts template.
+* **core:** general performance improvements and code cleanup.
+* **settings:** add new setting `blog_id` to define blog route.
+
+### Bug Fixes
+
+* **_project:** fix demo fieldsets and entries.
+* **core:** fix broken links in layouts.
+
 <a name="1.9.1"></a>
 # [1.9.1](https://github.com/flextype-plugins/themes-admin/compare/v1.9.0...v1.9.1) (2021-01-04)
 

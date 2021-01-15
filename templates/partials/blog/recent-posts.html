@@ -1,0 +1,9 @@
+<h3 class="text-left mb-2">Recent Posts</h3>
+<ul class="pl-0 list-unstyled">
+{% for post in blog.copy()
+                    .where('visibility', 'nin', ['draft', 'hidden'])
+                    .sortBy('published_at', 'DESC')
+                    .limit(blogPostsRecentLimit) %}
+        <li class="mb-1"><a href="{{ url() }}/{{ post.id }}">{{ post.title }}</a></li>
+{% endfor %}
+</ul>

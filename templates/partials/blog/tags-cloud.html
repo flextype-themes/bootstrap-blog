@@ -1,0 +1,15 @@
+{% set tagsCloud = [] %}
+{% for post in blog.copy()
+                    .where('visibility', 'nin', ['draft', 'hidden'])
+                    .sortBy('published_at', 'DESC')
+                    .limit(blogPostsLimit) %}
+    {% set tags = post.tags|replace({' ': ''}) %}
+    {% set tagsCloud = tagsCloud|merge(tags|split(',')) %}
+{% endfor %}
+
+{% if tagsCloud|length > 0 %}
+    <h3 class="text-left mb-2">Tags</h3>
+    {% for tag in tagsCloud|reduce((unique, item) => item in unique ? unique : unique|merge([item]), [])  %}
+        <a href="{{ url() }}/blog?tag={{ tag|trim }}"><span class="badge badge-primary">{{ tag|trim }}</span></a>
+    {% endfor %}
+{% endif %}

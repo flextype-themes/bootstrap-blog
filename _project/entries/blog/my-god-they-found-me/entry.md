@@ -1,8 +1,8 @@
 ---
 title: 'My god, they found me'
 summary: '<p>Yeah Mom, we know, you''ve told us this story a million times. You felt sorry for him so you decided to go with him to The Fish Under The Sea Dance. Dear Doctor Brown, on the night that I go back in time, you will be shot by terrorists. Please take whatever precautions are necessary to prevent this terrible disaster. Your friend, Marty. Biff, stop it. Biff, you''re breaking his arm. Biff, stop. My god, they found me. I don''t know how but they found me. Run for it, Marty. My god, they found me. I don''t know how but they found me. Run for it, Marty. Well, because George, nice girls get angry when guys take advantage of them.</p>'
-tag: ''
 description: ''
+tags: 'doctor, future'
 template: blog-post
 visibility: visible
 published_at: '26-02-2020 18:20'

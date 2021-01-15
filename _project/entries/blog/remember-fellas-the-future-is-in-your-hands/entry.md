@@ -1,7 +1,7 @@
 ---
 title: 'Remember, fellas, the future is in your hands'
 summary: '<p>Einstein, hey Einstein, where''s the Doc, boy, huh? Doc Yeah, well, how about my homework, McFly? No, no, George, look, it''s just an act, right? Okay, so 9:00 you''re strolling through the parking lot, you see us struggling in the car, you walk up, you open the door and you say, your line, George. Yeah Mom, we know, you''ve told us this story a million times. You felt sorry for him so you decided to go with him to The Fish Under The Sea Dance. It''s information about the future isn''t it. I warned you about this kid. The consequences could be disastrous.</p>'
-tags: 'doc,future'
+tags: 'einstein, future'
 description: ''
 template: blog-post
 visibility: visible

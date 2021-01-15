@@ -1,0 +1,16 @@
+---
+title: 'Bender, I didn''t know you liked cooking. That''s so cute.'
+fieldset: blog-post
+visibility: visible
+routable: true
+uuid: 87cdfe1b-5e48-4007-83f2-e740528cf286
+published_at: '26-02-2020 17:15'
+created_at: '26-05-2020 17:15'
+published_by: 8db5ecee-bf60-44d1-b918-866898f9b09d
+created_by: ea7432a3-b2d5-4b04-b31d-1c5acc7a55e2
+summary: '<p>I had more, but you go ahead. Why would I want to know that? I just told you! You''ve killed me! This is the worst part. The calm before the battle. Anyhoo, your net-suits will allow you to experience Fry''s worm infested bowels as if you were actually wriggling through them.</p><p>Fry! Stay back! He''s too powerful! This is the worst kind of discrimination: the kind against me! There''s no part of that sentence I didn''t like! These old Doomsday Devices are dangerously unstable. I''ll rest easier not knowing where they are.</p>'
+description: ''
+template: blog-post
+tags: bender
+---
+<p>Ooh, name it after me!</p><p>I had more, but you go ahead. Why would I want to know that? I just told you! You've killed me! This is the worst part. The calm before the battle. Anyhoo, your net-suits will allow you to experience Fry's worm infested bowels as if you were actually wriggling through them.</p><p>Fry! Stay back! He's too powerful! This is the worst kind of discrimination: the kind against me! There's no part of that sentence I didn't like! These old Doomsday Devices are dangerously unstable. I'll rest easier not knowing where they are.</p><p>THE BIG BRAIN AM WINNING AGAIN! I AM THE GREETEST! NOW I AM LEAVING EARTH, FOR NO RAISEN!</p><p>I suppose I could part with 'one' and still be feared… Anyone who laughs is a communist! Oh, how I wish I could believe or understand that! There's only one reasonable course of action now: kill Flexo!</p><p>Morbo will now introduce tonight's candidates… PUNY HUMAN NUMBER ONE, PUNY HUMAN NUMBER TWO, and Morbo's good friend, Richard Nixon.</p><p>Good news, everyone! There's a report on TV with some very bad news!</p><p>Say it in Russian!</p><p>Why would I want to know that?</p><p>Ok, we'll go deliver this crate like professionals, and then we'll go ride the bumper cars. Yeah, lots of people did. Dr. Zoidberg, that doesn't make sense. But, okay! Dr. Zoidberg, that doesn't make sense. But, okay!</p><p><span style="background-color: rgba(255,255,255,var(--bg-opacity)); color: rgba(22,23,26,var(--text-opacity)); font-size: var(--font-size);">You'll have all the Slurm you can drink when you're partying with Slurms McKenzie!</span><br></p><p>Guards! Bring me the forms I need to fill out to have her taken away!</p><p>Maybe I love you so much I love you no matter who you are pretending to be.</p><p>You are the last hope of the universe. Shut up and take my money! I haven't felt much of anything since my guinea pig died. Why would I want to know that? Man, I'm sore all over. I feel like I just went ten rounds with mighty Thor.</p><p>Wow, you got that off the Internet? In my day, the Internet was only used to download pornography. Do a flip! Is the Space Pope reptilian!? We don't have a brig. Yes, if you make it look like an electrical fire. When you do things right, people won't be sure you've done anything at all.</p><p>And then the battle's not so bad? Pansy. And until then, I can never die? Now what?<br></p>
